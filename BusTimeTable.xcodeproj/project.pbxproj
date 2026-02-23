@@ -12,8 +12,6 @@
 		13CD809B2F4B11D70088DE25 /* BusCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CD807F2F4B10C40088DE25 /* BusCore.swift */; };
 		13CD809C2F4B11D70088DE25 /* BusCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CD807F2F4B10C40088DE25 /* BusCore.swift */; };
 		13CD809D2F4B1A1A0088DE25 /* BusTimeTableWidget.swiftExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 13CD80852F4B116A0088DE25 /* BusTimeTableWidget.swiftExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		13CD80A12F4B1B780088DE25 /* .gitignore in Sources */ = {isa = PBXBuildFile; fileRef = 13CD80A02F4B1B710088DE25 /* .gitignore */; };
-		13CD80A22F4B1B780088DE25 /* .gitignore in Sources */ = {isa = PBXBuildFile; fileRef = 13CD80A02F4B1B710088DE25 /* .gitignore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -245,7 +243,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13CD80A22F4B1B780088DE25 /* .gitignore in Sources */,
 				13CD809B2F4B11D70088DE25 /* BusCore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -254,7 +251,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13CD80A12F4B1B780088DE25 /* .gitignore in Sources */,
 				13CD809C2F4B11D70088DE25 /* BusCore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

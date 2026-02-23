@@ -55,14 +55,12 @@ enum LocalJSONLoader {
         return try decoder.decode(BusSchedule.self, from: data)
     }
 
-    /// holidays.json は 1行に1件の `yyyy/M/d` 形式を想定
+    /// holidays.json は JSON配列の文字列（例: ["2026-02-23", "2026-03-20"]）を想定
     static func loadHolidayStrings(filename: String = "holidays", bundle: Bundle = .main) throws -> [String] {
         let url = try fileURL(filename: filename, ext: "json", bundle: bundle)
-        let text = try String(contentsOf: url, encoding: .utf8)
-        return text
-            .components(separatedBy: .newlines)
-            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-            .filter { !$0.isEmpty }
+        let data = try Data(contentsOf: url)
+        let decoder = JSONDecoder()
+        return try decoder.decode([String].self, from: data)
     }
 
     private static func fileURL(filename: String, ext: String, bundle: Bundle) throws -> URL {
@@ -116,18 +114,32 @@ struct HolidayCalendar {
         let y = calendar.component(.year, from: date)
         let m = calendar.component(.month, from: date)
         let d = calendar.component(.day, from: date)
-        return "\(y)/\(m)/\(d)"
+        return String(format: "%04d-%02d-%02d", y, m, d)
     }
 
     private static func normalizeDateKey(_ raw: String) -> String? {
-        let parts = raw.split(separator: "/").map(String.init)
-        guard parts.count == 3,
-              let y = Int(parts[0]),
-              let m = Int(parts[1]),
-              let d = Int(parts[2]) else {
-            return nil
+        let trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return nil }
+
+        // yyyy-MM-dd（推奨）
+        let hyphenParts = trimmed.split(separator: "-").map(String.init)
+        if hyphenParts.count == 3,
+           let y = Int(hyphenParts[0]),
+           let m = Int(hyphenParts[1]),
+           let d = Int(hyphenParts[2]) {
+            return String(format: "%04d-%02d-%02d", y, m, d)
         }
-        return "\(y)/\(m)/\(d)"
+
+        // 旧形式 yyyy/M/d も許容
+        let slashParts = trimmed.split(separator: "/").map(String.init)
+        if slashParts.count == 3,
+           let y = Int(slashParts[0]),
+           let m = Int(slashParts[1]),
+           let d = Int(slashParts[2]) {
+            return String(format: "%04d-%02d-%02d", y, m, d)
+        }
+
+        return nil
     }
 }
 
